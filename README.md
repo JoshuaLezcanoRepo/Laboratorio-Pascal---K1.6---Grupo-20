@@ -1,6 +1,5 @@
-# Laboratorio-Pascal - K1.6 - Grupo 20
+# Laboratorio Pascal - K1.6 - Grupo 20
 UTN 2023 - Resistencia, Chaco, ARGENTINA Algoritmo y Estructura de Datos - Laboratorio Pascal
-Link a Repo de GitHub:   
 
 Comisión: K1.6. Grupo: 20. 
 Escenario N°1. 
