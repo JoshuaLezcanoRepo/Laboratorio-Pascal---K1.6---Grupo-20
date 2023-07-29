@@ -1,0 +1,208 @@
+ACCION labStar ES
+	AMBIENTE
+		Sec: Secuencia de Caracteres // Defino Secuencia y Caracter
+		v: Caracter;
+		i: N;
+
+		Sal = REGISTRO // Defino Archivo de Salida
+			Nombre: AN(40);
+			Fecha = REGISTRO
+				Anio: N(4);
+				Mes: N(2);
+				Dia: N(2);
+			FR;
+		FR;
+
+		Arch_Sal: Archivo de Sal // Asigno Archivo de Salida
+		reg_sal: Sal // Asigno Registro
+
+		res_Nombre: AN(40); // Creo Resguardos
+		res_Anio: N(4);
+		res_Mes: N(2);
+		res_Dia: N(2);
+		res_Cantidad: REAL;
+
+		// Ver Linea 28 y 30
+		Generar: Booleano; // Creo Variables
+		Posicion: REAL;
+		cant_Kg, mes1, mes2, mes3, mes4, mes5, mes6, mes7, mes8, mes9, mes10, mes11, mes12: N;
+
+		FUNCION Caracter(num: CARACTER): ENTERO ES // Funcion -> Caracter a Entero
+			SEGUN num HACER
+				"0": Caracter:= 0;
+				"1": Caracter:= 1;
+				"2": Caracter:= 2;
+				"3": Caracter:= 3;
+				"4": Caracter:= 4;
+				"5": Caracter:= 5;
+				"6": Caracter:= 6;
+				"7": Caracter:= 7;
+				"8": Caracter:= 8;
+				"9": Caracter:= 9;
+			FS;
+		FF;
+
+		FUNCION CambioMes(numero: ENTERO): ALFANUMERICO ES // Funcion -> Dado Numero de Mes, devuelve Nombre
+			SEGUN numero HACER
+				1: CambioMes:= "Enero";
+				2: CambioMes:= "Febrero";
+				3: CambioMes:= "Marzo";
+				4: CambioMes:= "Abril";
+				5: CambioMes:= "Mayo";
+				6: CambioMes:= "Junio";
+				7: CambioMes:= "Julio";
+				8: CambioMes:= "Agosto";
+				9: CambioMes:= "Septiembre";
+				10: CambioMes:= "Octubre";
+				11: CambioMes:= "Noviembre";
+				12: CambioMes:= "Diciembre";
+			FS;
+		FF;
+
+		FUNCION AcumuladorMes(numero: ENTERO): REAL ES // Funcion -> Devuelve valor del acumulador segun Mes
+			SEGUN numero HACER 
+				1: AcumuladorMes:= mes1;
+				2: AcumuladorMes:= mes2;
+				3: AcumuladorMes:= mes3;
+				4: AcumuladorMes:= mes4;
+				5: AcumuladorMes:= mes5;
+				6: AcumuladorMes:= mes6;
+				7: AcumuladorMes:= mes7;
+				8: AcumuladorMes:= mes8;
+				9: AcumuladorMes:= mes9;
+				10: AcumuladorMes:= mes10;
+				11: AcumuladorMes:= mes11;
+				12: AcumuladorMes:= mes12;
+			FS;
+		FF;
+
+		PROCEDIMIENTO tratamiento_fecha ES // Procedimiento -> Fecha a Caracter
+			res_Dia:= (res_Dia + (Caracter(v) * 10));
+			AVZ(Sec,v);
+			res_Dia:= (res_Dia + Caracter(v));
+			AVZ(Sec,v);
+			res_Mes:= (res_Mes + (Caracter(v) * 10));
+			AVZ(Sec,v);
+			res_Mes:= (res_Mes + Caracter(v));
+			AVZ(Sec,v);
+			res_Anio:= (res_Anio + (Caracter(v) * 1000));
+			AVZ(Sec,v);
+			res_Anio:= (res_Anio + (Caracter(v) * 100));
+			AVZ(Sec,v);
+			res_Anio:= (res_Anio + (Caracter(v) * 10));
+			AVZ(Sec,v);
+			res_Anio:= (res_Anio + Caracter(v));
+			AVZ(Sec,v);
+		FP;
+
+		PROCEDIMIENTO meses_clasif ES // Procedimiento -> Clasificación Sustantancia según Mes
+			SEGUN res_Mes HACER
+				1: mes1:= mes1 + cant_kg;
+				2: mes2:= mes2 + cant_kg;
+				3: mes3:= mes3 + cant_kg;
+				4: mes4:= mes4 + cant_kg;
+				5: mes5:= mes5 + cant_kg;
+				6: mes6:= mes6 + cant_kg;
+				7: mes7:= mes7 + cant_kg;
+				8: mes8:= mes8 + cant_kg;
+				9: mes9:= mes9 + cant_kg;
+				10: mes10:= mes10 + cant_kg;
+				11: mes11:= mes11 + cant_kg;
+				12: mes12:= mes12 + cant_kg;
+			FS;
+		FP;
+
+		PROCEDIMIENTO informe_por_mes ES // Procedimiento que Genera Informe
+			PARA (i:= 1 HASTA 12) HACER
+				ESC("- ", CambioMes(i), " -> ",AcumuladorMes(i)," kg");
+			FP;
+		FP;
+
+		PROCEDIMIENTO inicializar_var ES // Inicio Variables y Resguardos
+			res_Anio:= 0;
+			res_Mes:= 0;
+			res_Dia:= 0;
+			res_Cantidad:= 0;
+			cant_kg:= 0;
+			Posicion:= 1;
+		FP;
+
+	PROCESO
+		ARR(Sec); // Arranco Secuencia
+		AVZ(Sec,v); // Avanzo Secuencia
+		ABRIR /S(Arch_Sal); // Abro Archivo Salida
+		inicializar_var();
+		mes1:= 0;
+		mes2:= 0;
+		mes3:= 0;
+		mes4:= 0;
+		mes5:= 0;
+		mes6:= 0;
+		mes7:= 0;
+		mes8:= 0;
+		mes9:= 0;
+		mes10:= 0;
+		mes11:= 0;
+		mes12:= 0;
+
+		MIENTRAS NFDS (Sec) HACER
+			SI (v = "N") ENTONCES
+				Generar:= VERDADERO;
+			SINO
+				Generar:= FALSO;
+			FS;
+
+			AVZ(Sec, v);
+			tratarFecha();
+			ESC("- ");
+			MIENTRAS (v <> "#") HACER // Utilizo la Funcion concat() de Pascal para guardar caracter por caracter el Nombre
+				ESC(v);
+				res_Nombre:= concat(res_Nombre,v);
+				AVZ(Sec,v);
+			FM;
+
+			ESC(" -> ");
+			AVZ(Sec, v);
+
+			MIENTRAS (v <> "#") HACER // Avanzo Codigo. Cientifico	
+				AVZ(Sec, v);
+			FM;
+
+			AVZ(Sec,v);
+
+			MIENTRAS (v <> "#") HACER // Convierto Cantidad (en libras) a Entero	
+				res_Cantidad:= (res_Cantidad + (Caracter(v) / Posicion));
+				Posicion:= Posicion * 10;
+				AVZ(Sec, v);
+			FM;
+
+			res_Cantidad:= (res_Cantidad * (Posicion / 10));
+			
+			cant_kg:= res_Cantidad * 0.45359237; // Convierto a Kilogramos
+			ESC(cant_kg," kg");
+
+			SI Generar ENTONCES // SI Generar es Verdadero, asigno a la salida los valores y muestro 
+				reg_sal.Nombre:= res_Nombre;
+				reg_sal.Fecha.Anio:= res_Anio;
+				reg_sal.Fecha.Mes:= res_Mes;
+				reg_sal.Fecha.Dia:= res_Dia;
+				ESC(Arch_Sal, reg_sal);
+			FS;
+
+			//SI el año coincide ENTONCES clasifico la sustancia segun el Mes y acumulo la Cantidad en ese Mes
+			SI (res_Anio = 2022) ENTONCES      
+				meses_clasif();
+			FS;
+
+			SI NO FDS(Sec) ENTONCES      
+				AVZ(Sec,v);
+				inicializar_var();
+			FS;
+		FM;
+
+		ESC("| Informe Mensual de la Cantidad de Sustancias Ingresadas en el Anio 2022 |");
+		informe_por_mes(); // Emito Informe
+		CERRAR(Sec); // Cierro mi Secuencia y Archivo
+		CERRAR(Arch_Sal);
+	FP;
+FA;
